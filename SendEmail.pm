@@ -74,13 +74,13 @@ sub new($$$)
 sub probevars {
 	my $class = shift;
 	return $class->_makevars($class->SUPER::probevars, {
-		_mandatory => [ ],
+		_mandatory => [ 'from', 'to' ],
 		from => {
-			_doc => "Mail from",
+			_doc => "Mail from address",
 			_example => 'test@test.com',
 		},
 		to => {
-			_doc => "Rcpt to",
+			_doc => "Rcpt to address",
 			_exemple => 'test@test.com',
 		},
 		subject => {
@@ -89,7 +89,7 @@ sub probevars {
 			_default => "Test",
 		},
 		bodysize => {
-			_doc => "Size of the mail to send in bytes",
+			_doc => "Size of the mail to send in bytes. If set to 0, a default mail content will be set. Note that mail always contain From, To and Subject headers.",
 			_exemple => "1024",
 			_default => "0",
 		}
