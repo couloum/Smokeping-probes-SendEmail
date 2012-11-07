@@ -33,6 +33,7 @@ to generate the POD document.
 use strict;
 use base qw(Smokeping::probes::basefork); 
 use Carp;
+use Sys::Hostname;
 use Time::HiRes;
 use Net::SMTP;
 
@@ -128,6 +129,9 @@ sub pingone ($){
 	my $host = $target->{addr};
 	my $port = $target->{vars}{port} || 25;
 
+	# Get Hostname
+	my $hostname = hostname();
+
 	
 	# Send a mail as many times as requested
 	for (1..$count) {
@@ -135,7 +139,7 @@ sub pingone ($){
 		my $start = Time::HiRes::gettimeofday();
 
 		# Open the connection and then send the mail
-		my $smtp = new Net::SMTP("$host:$port", Timeout => 5);
+		my $smtp = new Net::SMTP("$host:$port", Timeout => 5, Hello => $hostname);
 		next if (!$smtp);
 
 		$smtp->mail($from) || next;
